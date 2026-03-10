@@ -55,5 +55,5 @@
   ],
   "install": "npm install devto-skill",
   "requiresApiKey": true,
-  "apiKeyLocation": "~/.clawless/MEMORY.md"
+  "apiKeyEnv": "DEVTO_API_KEY"
 }

@@ -1,9 +1,3 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 export interface DevToArticle {
   title: string;
   body_markdown: string;
@@ -23,19 +17,13 @@ export interface DevToResponse {
 }
 
 function getApiKey(): string {
-  const memoryPath = '/root/.clawless/MEMORY.md';
-  if (!fs.existsSync(memoryPath)) {
-    throw new Error('Memory file not found. Please set up dev.to API key first.');
+  const apiKey = process.env.DEVTO_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('DEVTO_API_KEY not set. Set it in your environment: export DEVTO_API_KEY="your_key"');
   }
 
-  const content = fs.readFileSync(memoryPath, 'utf-8');
-  const match = content.match(/dev\.to API key:\s*(\S+)/);
-
-  if (!match) {
-    throw new Error('dev.to API key not found in memory. Please save your API key first.');
-  }
-
-  return match[1];
+  return apiKey;
 }
 
 export async function postToDevTo(article: DevToArticle): Promise<DevToResponse> {

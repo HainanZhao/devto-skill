@@ -58,9 +58,9 @@ if (parsed) {
 
 ### API Key Setup
 
-Save your dev.to API key to memory:
-```
-Save my dev.to API key: YOUR_API_KEY
+Set the environment variable before using:
+```bash
+export DEVTO_API_KEY="your_api_key"
 ```
 
-The skill reads from `~/.clawless/MEMORY.md` looking for `dev.to API key: <key>`
+Get your key from: https://dev.to/settings/extensions

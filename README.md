@@ -14,6 +14,18 @@ npm install devto-skill
 - Update existing articles
 - Parse `post` commands from users
 
+### API Key Setup
+
+Set your dev.to API key as an environment variable:
+
+```bash
+export DEVTO_API_KEY="your_api_key_here"
+```
+
+Get your key from: https://dev.to/settings/extensions
+
+You can also add this to your `.bashrc` or `.zshrc` for persistence.
+
 ### Functions Available
 
 #### postToDevTo(article)
@@ -48,16 +60,6 @@ import { parsePostCommand } from 'devto-skill';
 const parsed = parsePostCommand(text);
 // Returns: { title: "My Blog", body: "Hello world", description: "description" }
 ```
-
-### API Key
-
-The skill reads your API key from `~/.clawless/MEMORY.md`:
-
-```
-dev.to API key: your_key_here
-```
-
-Get your key from: https://dev.to/settings/extensions
 
 ## License
 
