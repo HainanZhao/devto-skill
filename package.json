@@ -1,0 +1,23 @@
+{
+  "name": "devto-skill",
+  "version": "1.0.0",
+  "description": "dev.to API client for posting and updating articles",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "devto",
+    "api",
+    "blog",
+    "posting"
+  ],
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}
