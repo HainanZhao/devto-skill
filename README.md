@@ -1,75 +1,63 @@
-# clawless-devto-skill
+# devto-skill
 
-dev.to posting skill for Clawless - post blogs directly from Telegram/Slack.
+Post and manage articles on dev.to from any AI agent.
 
-## Installation
+## For AI Agents
 
+### Quick Install
 ```bash
-npm install clawless-devto-skill
+npm install devto-skill
 ```
 
-## Usage
+### What This Skill Does
+- Post new articles to dev.to
+- Update existing articles
+- Parse `post` commands from users
 
+### Functions Available
+
+#### postToDevTo(article)
 ```typescript
-import { postToDevTo, parsePostCommand } from 'clawless-devto-skill';
+import { postToDevTo } from 'devto-skill';
 
-// Parse command from user message
-const parsed = parsePostCommand('post My Blog | Hello world | A short description');
-if (parsed) {
-  const result = await postToDevTo({
-    title: parsed.title,
-    body_markdown: parsed.body,
-    description: parsed.description,
-    published: true,
-  });
-  console.log(result.url);
-}
+const result = await postToDevTo({
+  title: "My Blog Post",
+  body_markdown: "# Hello\n\nThis is my post content",
+  description: "A short description for SEO",
+  tags: ["javascript", "tutorial"],
+  published: true
+});
+// Returns: { id, url, title, slug }
 ```
 
-## Clawless Integration
-
-In your Clawless `registerTelegramHandlers.ts`:
-
+#### updateDevToArticle(articleId, article)
 ```typescript
-import { postToDevTo, parsePostCommand } from 'clawless-devto-skill';
-import type { DevToArticle } from 'clawless-devto-skill';
+import { updateDevToArticle } from 'devto-skill';
 
-// In your message handler:
-if (isDevToPostCommand(messageContext.text)) {
-  const parsed = parsePostCommand(messageContext.text);
-  if (!parsed) {
-    await messageContext.sendText('📝 Usage: post <title> | <content> | <description>');
-    return;
-  }
-  
-  await messageContext.sendText('📤 Posting to dev.to...');
-  try {
-    const article: DevToArticle = {
-      title: parsed.title,
-      body_markdown: parsed.body,
-      description: parsed.description || parsed.body.substring(0, 150),
-      published: true,
-    };
-    const result = await postToDevTo(article);
-    await messageContext.sendText(`✅ Posted! ${result.url}`);
-  } catch (error) {
-    await messageContext.sendText(`❌ Failed: ${error.message}`);
-  }
-}
+await updateDevToArticle(12345, {
+  title: "Updated Title",
+  body_markdown: "Updated content"
+});
 ```
 
-## API Key Setup
+#### parsePostCommand(text)
+```typescript
+import { parsePostCommand } from 'devto-skill';
 
-Save your dev.to API key to Clawless memory:
+// User says: "post My Blog | Hello world | description"
+const parsed = parsePostCommand(text);
+// Returns: { title: "My Blog", body: "Hello world", description: "description" }
+```
+
+### API Key
+
+The skill reads your API key from `~/.clawless/MEMORY.md`:
 
 ```
-Save my dev.to API key: YOUR_API_KEY
+dev.to API key: your_key_here
 ```
 
-## Commands
-
-- `post <title> | <content>` - Post a new article
-- `post <title> | <content> | <description>` - Post with custom description
+Get your key from: https://dev.to/settings/extensions
 
 ## License
 

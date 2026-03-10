@@ -1,0 +1,59 @@
+{
+  "name": "devto-skill",
+  "version": "1.0.0",
+  "description": "Post and manage articles on dev.to",
+  "functions": [
+    {
+      "name": "postToDevTo",
+      "description": "Post a new article to dev.to",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "description": "Article title" },
+          "body_markdown": { "type": "string", "description": "Article content in Markdown" },
+          "description": { "type": "string", "description": "SEO description" },
+          "tags": { "type": "array", "items": { "type": "string" }, "description": "Article tags (max 4)" },
+          "published": { "type": "boolean", "description": "Publish immediately" }
+        },
+        "required": ["title", "body_markdown"]
+      },
+      "returns": {
+        "id": "number",
+        "url": "string",
+        "title": "string",
+        "slug": "string"
+      }
+    },
+    {
+      "name": "updateDevToArticle",
+      "description": "Update an existing dev.to article",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "articleId": { "type": "number", "description": "Article ID to update" },
+          "article": { "type": "object", "description": "Article object (same as postToDevTo)" }
+        },
+        "required": ["articleId", "article"]
+      }
+    },
+    {
+      "name": "parsePostCommand",
+      "description": "Parse user command: post <title> | <content> | <description>",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "text": { "type": "string", "description": "User message to parse" }
+        },
+        "required": ["text"]
+      },
+      "returns": {
+        "title": "string",
+        "body": "string",
+        "description": "string"
+      }
+    }
+  ],
+  "install": "npm install devto-skill",
+  "requiresApiKey": true,
+  "apiKeyLocation": "~/.clawless/MEMORY.md"
+}
