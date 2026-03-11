@@ -13,7 +13,8 @@
           "body_markdown": { "type": "string", "description": "Article content in Markdown" },
           "description": { "type": "string", "description": "SEO description" },
           "tags": { "type": "array", "items": { "type": "string" }, "description": "Article tags (max 4)" },
-          "published": { "type": "boolean", "description": "Publish immediately" }
+          "published": { "type": "boolean", "description": "Publish immediately" },
+          "main_image": { "type": "string", "description": "Cover image URL" }
         },
         "required": ["title", "body_markdown"]
       },
@@ -37,8 +38,23 @@
       }
     },
     {
+      "name": "uploadImage",
+      "description": "Upload an image to dev.to and get a URL for use in articles",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "imageUrl": { "type": "string", "description": "URL of the image to upload" }
+        },
+        "required": ["imageUrl"]
+      },
+      "returns": {
+        "url": "string",
+        "id": "number"
+      }
+    },
+    {
       "name": "parsePostCommand",
-      "description": "Parse user command: post <title> | <content> | <description>",
+      "description": "Parse user command: post <title> | <content> | <description> | <image_url>",
       "parameters": {
         "type": "object",
         "properties": {
@@ -49,7 +65,8 @@
       "returns": {
         "title": "string",
         "body": "string",
-        "description": "string"
+        "description": "string",
+        "image": "string"
       }
     }
   ],

@@ -6,6 +6,7 @@ export interface DevToArticle {
   series?: string;
   canonical_url?: string;
   description?: string;
+  main_image?: string;
 }
 
 export interface DevToResponse {
@@ -68,7 +69,9 @@ export async function updateDevToArticle(articleId: number, article: DevToArticl
   return data as DevToResponse;
 }
 
-export function parsePostCommand(text: string): { title: string; body: string; description?: string } | null {
+export function parsePostCommand(
+  text: string,
+): { title: string; body: string; description?: string; image?: string } | null {
   const match = text.match(/^post\s+(.+)$/i) || text.match(/^\/post\s+(.+)$/i);
   if (!match || !match[1]) return null;
 
@@ -77,5 +80,32 @@ export function parsePostCommand(text: string): { title: string; body: string; d
     title: parts[0].trim(),
     body: parts[1]?.trim() || parts[0].trim(),
     description: parts[2]?.trim(),
+    image: parts[3]?.trim(),
   };
+}
+
+export interface UploadedImage {
+  url: string;
+  id: number;
+}
+
+export async function uploadImage(imageUrl: string): Promise<UploadedImage> {
+  const apiKey = getApiKey();
+
+  const response = await fetch('https://dev.to/api/images', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'api-key': apiKey,
+    },
+    body: JSON.stringify({ image: imageUrl }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error || data.message || 'Failed to upload image');
+  }
+
+  return data as UploadedImage;
 }
